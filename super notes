@@ -289,3 +289,369 @@ https://www.devopsschool.com/tutorial/docker/commands
   134  clear
 
 
+TASK 
+update	Update configuration of one or more containers
+wait	Block until one or more containers stop, then print their exit codes
+
+
+==========================================================================
+===========================================================================
+Docker volume
+https://www.devopsschool.com/blog/understand-docker-volume-from-beginner-to-deep-dive-level/
+
+-------------------------------------
+	- Volume - /var/lib/docker/volumes
+	- mount
+	- tmpfs
+
+
+ 10  clear
+   11  docker run -it ubuntu
+   12  docker info
+   13  clear
+   14  cd /var/lib/docker
+   15  ls
+   16  find . -name /var/lib/docker
+   17  find . -name devopsschool.com
+   18  docker ps -a
+   19  docker stop 1fd32e3e9501
+   20  docker rm 1fd32e3e9501
+   21  clear
+   22  find . -name devopsschool.com
+   23  clear
+   24  docker volume
+   25  clear
+   26  pwd
+   27  ls
+   28  cd volumes
+   29  ls
+   30  clear
+   31  pwd
+   32  ls
+   33  docker  volume
+   34  clear
+   35  docker prune
+   36  docker volume prune
+   37  ls
+   38  clear
+   39  docker volume create raj
+   40  ls
+   41  cd raj/
+   42  ls
+   43  cd _data/
+   44  ls
+   45  cd ..
+   46  ls
+   47  cd ..
+   48  ls
+   49  clear
+   50  ls
+   51  docker run -itd -v raj:/opt/raju ubuntu
+   52  docker exec 23f991f77b25eb84a4cc9a7ea7becf8fd5b3c72e950361be5188bee58df6c145 df -kh
+   53  clear
+   54  ls
+   55  docker ps
+   56  docker attach 23f991f77b25
+   57  clear
+   58  docker ps -a
+   59  docker stop 23f991f77b25
+   60  docker rm 23f991f77b25
+   61  cler
+   62  clear
+   63  cd raj/
+   64  ls
+   65  cd _data/
+   66  ls
+   67  docker run -itd -v raj:/opt/raju ubuntu
+   68  docker ps
+   69  docker exec 6e1b9f4f71f6 ls /opt/raju
+   70  clear
+   71  ls
+   72  cd
+   73  cd /opt/
+   74  ls
+   75  mkdir bkp
+   76  ls
+   77  docker run -itd -v /opt/bkp:/opt/ramu ubuntu
+   78  docker ps
+   79  docker attach 54dccce65e63
+   80  clear
+   81  ls
+   82  cd bkp/
+   83  ls
+   84  docker ps -a
+   85  docker stop 54dccce65e63 6e1b9f4f71f6
+   86  docker rm 54dccce65e63 6e1b9f4f71f6
+   87  clear
+   88  ls
+   89  history
+   90  clear
+   91  docker volume ls
+   92  docker volume rm raj
+   93  docker volume ls
+   94  docker volume
+   95  history
+================================================================
+================================================================
+Docker Networking
+============================================
+“there is no such thing as container networking"
+=============================================
+Docker has Default support for NETWORKING DRIVER
+		- BRIDGE	
+		- HOST 
+		- NONE
+
+apt-get update && apt-get install -y iputils-ping traceroute net-tools iproute2
+	
+CONT 1 - DEFAULT		
+				172.17.0.1
+				172.17.0.2
+
+CONT 2 - DEV -- 38ff9a60e3c9
+				172.18.0.1
+				172.18.0.2
+
+
+docker network connect bridge 38ff9a60e3c9
+docker network disconnect bridge 38ff9a60e3c9
+
+
+
+ 229  docker ps
+  230  docker atatch 9410ea3ea78e
+  231  docker attach 9410ea3ea78e
+  232  clear
+  233  docker ps
+  234  docker attach 38ff9a60e3c9
+  235  clear
+  236  docker ps
+  237  docker attach 38ff9a60e3c9
+  238  clear
+  239  docker ps
+  240  docker network
+  241  docker network connect
+  242  clear
+  243  docker ps
+  244  docker network ls
+  245  docker network connect bridge 38ff9a60e3c9
+  246  clear
+  247  docker inspect 38ff9a60e3c9
+  248  docker network
+  249  docker network disconnect
+  250  docker network disconnect bridge 38ff9a60e3c9
+  251  docker inspect 38ff9a60e3c9
+
+
+
+
+  247  docker inspect 38ff9a60e3c9
+  248  docker network
+  249  docker network disconnect
+  250  docker network disconnect bridge 38ff9a60e3c9
+  251  docker inspect 38ff9a60e3c9
+  252  history
+  253  clear
+  254  docker network
+  255  clear
+  256  docker prune
+  257  docker network prune
+  258  docker network ls
+  259  docker network rm dev
+  260  docker ps
+  261  docker stop 38ff9a60e3c9
+  262  docker network rm dev
+  263  history
+
+
+  263  history
+  264  clear
+  265  docker ps -a
+  266  docker stop 38ff9a60e3c9 9410ea3ea78e
+  267  docker rm 38ff9a60e3c9 9410ea3ea78e
+  268  clear
+  269  docker ps
+  270  docker ps -a
+  271  ifconfig
+  272  clear
+  273  ls
+  274  docker network ls
+  275  docker run -itd --net=host ubuntu
+  276  docker ps
+  277  clear
+  278  docker ps
+  279  docker inspect 1d94d2ecd67f
+  280  docker ps
+  281  clear
+  282  docker ps
+  283  docker attach 1d94d2ecd67f
+  284  docker ps
+  285  clear
+  286  docker ps -a
+  287  docker stop 1d94d2ecd67f
+  288  docker rm 1d94d2ecd67f
+  289  clear
+  290  docker network ls
+  291  docker run -itd --net=none ubuntu
+  292  docker os
+  293  docker ps
+  294  docker inspect c3820f7da1d8
+  295  docker atach c3820f7da1d8
+  296  docker attach c3820f7da1d8
+  297  history
+
+PROJECT - 
+https://www.devopsschool.com/tutorial/docker/labs/docker/docker-lab-6-link.html
+
+================
+What is Docker images?
+	Image has multiple Layers
+	Each layer is nothing but filesystem
+	Base layer is ROOTFS
+	
+When we create a container?
+	IT CREATE EMPTY RW LAYER
+	ALL LAYERS MERGED INTO ONE - RO
+	EMPTY LAYER IS MOUNTED WITH MERGED LAYER USIGN UNION MOUNTS.
+
+
+  17  docker pull ubuntu
+   18  docker inpsect ubuntu
+   19  docker inspect ubuntu
+   20  docker info
+   21  cd /var/lib/docker
+   22  ls
+   23  cd overlay2
+   24  ls
+   25  du -h --max-depth=1
+   26  cd ./f57262b740fd90f6e38223f2a6bf4e0f49407d35bedbf3b0904d153de88d70b7
+   27  ls
+   28  cd diff/
+   29  ls
+   30  clear
+   31  ls
+   32  cd ..ls
+   33  cd ..
+   34  ls
+   35  cd ..
+   36  ls
+   37  cd ..
+   38  ls
+   39  clear
+   40  ls
+   41  docker history ubuntu
+   42  clear
+   43  ls
+   44  history
+   45  cd overlay2/f57262b740fd90f6e38223f2a6bf4e0f49407d35bedbf3b0904d153de88d70b7
+   46  clear
+   47  tree
+   48  yum install tree -y
+   49  cler
+   50  tree
+   51  clear
+   52  ls
+===============================================
+How to create images?
+-------------------------
+ubunut
+git
+	
+Lazy way? ----> USING EXISTING CONTAINER
+  227  docker commit -m"ub+git+up" -a "RajeshKumar" ef78e2828acf ub-git-up
+
+
+Automated Way  -----> dockerfile
+
+======================================
+How to share docker images?
+	1. Using Tar ball
+  254  docker images
+  255  docker save -o ub-git-up.tar ub-git-up
+  256  ls
+  257  tar -xvf ub-git-up.tar
+  258  clear
+  259  ls
+  260  docker images
+  261  docker rmi ub-git-up
+  262  docker ps -a
+  263  docker stop e0d9b3e38050 7fe6ed259379
+  264  clear
+  265  docker rm e0d9b3e38050 7fe6ed259379
+  266  clear
+  267  ls
+  268  docker rmi ub-git-up
+  269  clear
+  270  docker images
+  271  ls
+  272  docker load -i ub-git-up.tar
+  273  docker images
+
+	2. Using Public registry
+	3. Using Private registry
+
+Step 1 - Create a Images using existing contaner
+Step 2 - Craete a tar ball
+Step 3 - Register at hub.docker.com
+Step 4 - Login/push images to hub.docker.com
+
+ 285  docker login
+  286  clear
+  287  ls
+  288  docker images
+  289  docker push ub-git-up
+  290  docker tag ub-git-up scmgalaxy/ub-git-up4444
+  291  clear
+  292  docker images
+  293  docker push scmgalaxy/ub-git-up4444
+  294  ls
+
+=====================================================
+Jenkins
+	openjdk:8-jdk
+		buildpack-deps:stretch-scm	
+				buildpack-deps:stretch-curl
+						debian:stretch
+							scratch
+FROM ubuntu
+MAINTAINER RajeshKumar<Devops@rajeshkumar.xyz>
+RUN apt-get update 
+RUN apt-get install git -y
+
+FROM ubuntu
+MAINTAINER RajeshKumar<Devops@rajeshkumar.xyz>
+RUN apt-get update && apt-get install git -y
+
+FROM ubuntu
+MAINTAINER RajeshKumar<Devops@rajeshkumar.xyz>
+RUN touch /opt/rajesh1.txt
+RUN touch /opt/rajesh2.txt
+RUN touch /opt/rajesh3.txt
+ENV JAVA_HOME /opt/rajj
+
+ 46  docker build -t rajesh1 .
+   52  docker build -f rajesh2 -t rajesh .
+   64  docker build -f rajesh3 -t rajesh .
+
+
+IP - 52.66.195.255
+============================
+TOOL FLOW
+
+ECS
+ECS
+NOTARY - aquascan
+WHY CONTAINERS?
+=================================================
+CMD -  WOULD MAKE PID 1.
+			CMD CAN BE CHANGED ANYTIME.
+
+ENTRYPOINT
+	WOULD MAKE PID 1.
+			ENTRYPOINT CAN NOT BE CHANGED ANYTIME.
+			CMD passed to a container with ENTRYPOINT would be added a PARAMETER
+echo rajesh rahesh2	
+
+
+LAB FOR FINAL DOCKEFILE 
+https://www.devopsschool.com/tutorial/docker/dockerfile/dockerfile-example-sample-lab.html
